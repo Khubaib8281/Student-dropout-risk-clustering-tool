@@ -14,6 +14,14 @@ from app.clustering_pipeline import clustering_pipeline
 
 app = FastAPI(title="Student Dropout Risk Clustering API", version="1.0.0")
 
+@app.get("/")
+def read_root():
+    return {"message": "API is running fine 🚀"}
+
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
+    
 # CORS setup (so Streamlit can call this API)
 app.add_middleware(
     CORSMiddleware,
@@ -23,28 +31,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-def read_root():
-    return {"message": "API is running fine 🚀"}
-
-@app.get("/health")
-def health_check():
-    return {"status": "healthy"}
-
 @app.post("/predict/")
 async def predict_cluster(file: UploadFile = File(...)):
     try:
         contents = await file.read()
         decoded = contents.decode('utf-8')
         df = pd.read_csv(StringIO(decoded))
-        
-        clustered_df = clustering_pipeline(df)
+
+        if df.empty:
+            return {"status": "error", "message": "Uploaded CSV is empty"}
+        else:
+            clustered_df = clustering_pipeline(df)
         return {
             "status": "success",
             "data": clustered_df.to_dict(orient="records")
         }
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
 
         
 
