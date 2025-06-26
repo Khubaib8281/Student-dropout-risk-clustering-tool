@@ -1,0 +1,3 @@
+student_id,name,age,gender,quiz1_marks,quiz2_marks,quiz3_marks,total_assignments,assignments_submitted,midterm_marks,final_marks,previous_gpa,total_lectures,lectures_attended,total_lab_sessions,labs_attended
+1,Kristina Vaughan,19,Male,8,5.7,7.4,5,5,30,36.5,2.57,12,4,6,1
+2,Rodney Daniels,21,Male,10,7.9,4.1,5,5,25.4,33,2.4,12,1,6,5
