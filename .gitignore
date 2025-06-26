@@ -23,4 +23,6 @@ __pycache__/
 *.tar
 
 #Logs
-*.log
+*.log"__pycache__/" 
+"*.pyc" 
+"*.log" 
