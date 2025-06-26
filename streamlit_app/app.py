@@ -158,7 +158,7 @@ with st.expander("🧠 View Explanation", expanded=False):
     
     # Download button for sample CSV
     # st.info("👉 Don't have a file? Download the template below.")
-    with open("project/data/student_template.csv", "rb") as f:
+    with open("data/student_template.csv", "rb") as f:
         st.download_button(
             label= "⬇️ Download CSV Template",
             data = f,
