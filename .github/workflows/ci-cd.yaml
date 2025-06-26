@@ -1,0 +1,48 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+        - name: Lint Code (Check Formatting)
+      run: |
+        pip install flake8
+        flake8 project --count --select=E9,F63,F7,F82 --show-source --statistics || true
+
+    - name: Test API Startup
+      run: |
+        uvicorn project.api.main:app --host 127.0.0.1 --port 8000 &
+        sleep 5
+        curl -f http://127.0.0.1:8000 || exit 1
+
+    - name: Test Streamlit App Startup
+      run: |
+        streamlit run project/streamlit_app/app.py & 
+        sleep 10 
+        curl -f http://localhost:8501 || exit 1
+
+    - name: Success message
+      run: echo "App built and ran successfully."
+
