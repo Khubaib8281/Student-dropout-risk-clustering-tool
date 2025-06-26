@@ -8,7 +8,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -18,7 +17,15 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.10'
+        python-version: '3.10.11'
+
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
 
     - name: Install dependencies
       run: |
@@ -32,15 +39,19 @@ jobs:
 
     - name: Test API Startup
       run: |
-        uvicorn project.api.main:app --host 127.0.0.1 --port 8000 &
+        uvicorn api.main:app --host 127.0.0.1 --port 8000 &
+        API_PID=$!
         sleep 5
-        curl -f http://127.0.0.1:8000 || exit 1
+        curl -f http://127.0.0.1:8000 || (kill $API_PID && exit 1)
+        kill $API_PID
 
     - name: Test Streamlit App Startup
       run: |
-        streamlit run project/streamlit_app/app.py & 
-        sleep 10 
-        curl -f http://localhost:8501 || exit 1
+        streamlit run streamlit_app/app.py &
+        STREAMLIT_PID=$!
+        sleep 10
+        curl -f http://localhost:8501 || (kill $STREAMLIT_PID && exit 1)
+        kill $STREAMLIT_PID
 
     - name: Success message
-      run: echo "App built and ran successfully."
+      run: echo "✅ CI/CD pipeline completed successfully."
