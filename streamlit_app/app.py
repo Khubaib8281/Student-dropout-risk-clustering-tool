@@ -200,23 +200,23 @@ if uploaded_file:
 
     ## For FastAPI 
 
-    files = {"file": (uploaded_file.name, uploaded_file.getvalue(), "text/csv")}
+    # files = {"file": (uploaded_file.name, uploaded_file.getvalue(), "text/csv")}
 
-    response = requests.post("http://127.0.0.1:8000/predict/", files=files)
+    # response = requests.post("http://127.0.0.1:8000/predict/", files=files)
 
-    if response.status_code == 200:
-        result = response.json()
-        if result.get("status") == "success":
-            clustered_df = pd.DataFrame(result["data"])
-            st.write(clustered_df.head())
-        else:
-            st.error(f"API Error: {result.get('message')}")
-    else:
-        st.error(f"API call failed with status code {response.status_code}")
+    # if response.status_code == 200:
+    #     result = response.json()
+    #     if result.get("status") == "success":
+    #         clustered_df = pd.DataFrame(result["data"])
+    #         st.write(clustered_df.head())
+    #     else:
+    #         st.error(f"API Error: {result.get('message')}")
+    # else:
+    #     st.error(f"API call failed with status code {response.status_code}")
 
     ## Direct Streamlit approach
 
-    # clustered_df = clustering_pipeline(df, visualize=False)
+    clustered_df = clustering_pipeline(df, visualize=False)
 
     # Show key metrics
     st.subheader("🔍 Cluster Summary")
