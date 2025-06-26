@@ -1,4 +1,13 @@
 # Core Data Science
+--prefer-binary
+streamlit
+pandas
+numpy
+scikit-learn
+matplotlib
+seaborn
+python-dotenv
+
 pandas==2.2.2
 numpy==1.26.4
 scikit-learn==1.4.2
