@@ -37,14 +37,18 @@ async def predict_cluster(file: UploadFile = File(...)):
         contents = await file.read()
         decoded = contents.decode('utf-8')
         df = pd.read_csv(StringIO(decoded))
-        
-        clustered_df = clustering_pipeline(df)
+
+        if df.empty:
+            return {"status": "error", "message": "Uploaded CSV is empty"}
+        else:
+            clustered_df = clustering_pipeline(df)
         return {
             "status": "success",
             "data": clustered_df.to_dict(orient="records")
         }
     except Exception as e:
         return {"status": "error", "message": str(e)}
+
 
         
 
