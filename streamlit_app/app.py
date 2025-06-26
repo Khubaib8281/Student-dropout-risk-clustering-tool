@@ -159,8 +159,8 @@ with st.expander("🧠 View Explanation", expanded=False):
     # Download button for sample CSV
     # st.info("👉 Don't have a file? Download the template below.")
 
-    file_path = os.path.join(os.path.dirname(__file__), 'data', 'student_template.csv')
-    with open(file_path, "rb") as f:
+    # file_path = os.path.join(os.path.dirname(__file__), 'data', 'student_template.csv')
+    with open("Student-dropout-risk-clustering-tool/data/student_template.csv", "rb") as f:
         st.download_button(
             label= "⬇️ Download CSV Template",
             data = f,
