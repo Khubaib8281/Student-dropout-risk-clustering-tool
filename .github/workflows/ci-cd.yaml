@@ -42,8 +42,9 @@ jobs:
         uvicorn api.main:app --host 127.0.0.1 --port 8000 &
         API_PID=$!
         sleep 5
-        curl -f http://127.0.0.1:8000 || (kill $API_PID && exit 1)
+        curl -f http://127.0.0.1:8000/health || (kill $API_PID && exit 1)
         kill $API_PID
+
 
     - name: Test Streamlit App Startup
       run: |
