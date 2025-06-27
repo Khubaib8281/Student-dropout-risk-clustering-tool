@@ -196,6 +196,9 @@ if uploaded_file:
     if missing_cols:
         st.error(f"❌ Missing required columns: {', '.join(missing_cols)}")
         st.stop()
+    elif df.empty or len(df) < 5:
+        st.error("❌ The uploaded file is empty or has rows < 5. Please upload a valid CSV file.")
+        st.stop()
 
     st.success("✅ File uploaded successfully! Analyzing student performance...")
 
