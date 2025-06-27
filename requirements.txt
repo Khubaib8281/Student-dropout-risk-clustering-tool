@@ -8,3 +8,4 @@ streamlit==1.26.0
 python-dotenv==1.0.0
 requests==2.31.0
 joblib==1.2.0
+uvicorn==0.34.3
